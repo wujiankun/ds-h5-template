@@ -1,9 +1,11 @@
 {
-  "name": "{{name}}",
+  "name": "h5-template",
   "version": "0.1.0",
   "description": "{{description}}",
   "private": true,
-  "author": "{{author}}",
+  "author": "wjk",
+  "channel": "answers.channel",
+  "cmsId": "00382020ds_cli",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
