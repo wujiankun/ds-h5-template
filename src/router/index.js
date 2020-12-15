@@ -1,18 +1,22 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-Vue.use(Router);
 
 import Home from '@/views/Home';
+import About from '@/views/About';
+Vue.use(Router);
 
-
-let router = new Router({
+const router = new Router({
   routes: [
     {
       path: '/home',
-      component: Home,
+      component: Home
     },
     {
-      path: '/',
+      path: '*',
+      component: About
+    },
+    {
+      path: '/login',
       component: () => import(/* webpackChunkName: "about" */ '../views/Login/login.vue')
     }
   ]

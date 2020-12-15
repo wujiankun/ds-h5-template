@@ -5,8 +5,8 @@ import Vue from 'vue';
 import { Toast, Dialog } from 'vant';
 import axios from 'axios';
 import router from '@/router';
-import Config from '@/index.config.js';
-let baseUrl = Config.baseUrl;
+import Config from '@/services/index.config.js';
+const baseUrl = Config.baseUrl;
 Vue.use(Toast);
 Vue.use(Dialog);
 
@@ -14,10 +14,10 @@ Vue.use(Dialog);
 function AbnormalCodeProcessing (data) {
   // 针对微信的异常拦截。
   if (data.success === 'false') {
-    let code = data.error.code;
-    let message = data.error.message;
+    const code = data.error.code;
+    const message = data.error.message;
     if (code === '10100') {
-      router.replace({path: '/authentication/authentication'});
+      router.replace({ path: '/authentication/authentication' });
     } else if (code === '20100') {
       router.replace({
         path: '/authentication/authentication',
@@ -31,11 +31,12 @@ function AbnormalCodeProcessing (data) {
       });
     }
   }
+
   // 针对客户App的异常提示
   if (data.success === 'true') {
     if (data.result) {
-      let code = data.result.code;
-      let msg = data.result.msg;
+      const code = data.result.code;
+      const msg = data.result.msg;
       if (code) {
         Dialog.alert({
           message: msg
@@ -61,7 +62,7 @@ function dataDeal (config) {
 }
 
 function jsonFilter (obj) {
-  for (let i in obj) {
+  for (const i in obj) {
     if (obj[i] === null || obj[i] === undefined || obj[i] === '') {
       delete obj[i];
     }
@@ -70,20 +71,21 @@ function jsonFilter (obj) {
 }
 
 function isEmptyObj (obj) {
-  let isEmpty = true;
-  for (let i in obj) {
+  dataDeal();
+  const isEmpty = true;
+  /*  for (const i in obj) {
     isEmpty = false;
     break;
-  }
+  } */
   return isEmpty;
 }
 
 function isFormData (obj) {
   return obj instanceof FormData;
 }
-function serialize(data) {
+function serialize (data) {
   let str = '';
-  for (let i in data) {
+  for (const i in data) {
     str += '&' + i + '=' + data[i];
   }
   return str.substr(1);
@@ -95,10 +97,10 @@ function request (options) {
     timeout: 30000,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': `Bearer ${localStorage.getItem('token_wxpay')}`,
-      'openid': localStorage.getItem('openid_wxpay'),
-      'system': 'wechat',
-      'time': new Date().getTime()
+      Authorization: `Bearer ${localStorage.getItem('token_wxpay')}`,
+      openid: localStorage.getItem('openid_wxpay'),
+      system: 'wechat',
+      time: new Date().getTime()
     }
   };
   opts.url = /^(http|https):\/\//.test(options.url) ? options.url : baseUrl + options.url;
@@ -123,7 +125,7 @@ function request (options) {
   if (options.type === 'verifyCode') {
     opts.responseType = 'blob';
   }
-  let config = opts;
+  const config = opts;
   return axios.request(config).then(res => {
     return res.data;
   }).catch(err => {
